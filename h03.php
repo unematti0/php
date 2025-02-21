@@ -33,14 +33,14 @@ if (isset($_GET["a"]) && isset($_GET["b"]) && isset($_GET["c"])) {
 
 <h2>Rombi ümbermõõt</h2>
 <form method="get">
-    külg 1 <input type="number" name="a"><br>
+    külg 1 <input type="number" name="d"><br>
     <input type="submit" value="arvuta" class="btn btn-primary"><br>
 </form>
 
 <?php
-if (isset($_GET["a"])) {
-    $a = (int)$_GET["a"];
-    printf("Ümbermõõt on %d <br>", 4 * $a);
+if (isset($_GET["d"])) {
+    $d = (int)$_GET["d"];
+    printf("Ümbermõõt on %d <br>", 4 * $d);
 }
 ?>
 
