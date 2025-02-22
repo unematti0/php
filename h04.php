@@ -83,11 +83,16 @@ if (isset($_GET["kulg1"]) && isset($_GET["kulg2"]) && isset($_GET["kulg3"]) && i
         echo "Palun sisestage kõik küljed<br>";
     } elseif ($k1 == $k2 && $k2 == $k3 && $k3 == $k4) {
         echo "ruut<br>";
-    } else {
+    } elseif ($k1 == $k3 && $k2 == $k4) {
         echo "ristkülik<br>";
+    }else {
+        echo "ei ole ristkülik või ruut<br>";
     }
 
+
 }
+
+?>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
   </body>
