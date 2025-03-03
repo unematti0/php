@@ -107,7 +107,7 @@ if (isset($_GET["kulg1"]) && isset($_GET["kulg2"]) && isset($_GET["kulg3"]) && i
     }
 
     // Save the image to a file
-    $imagePath = 'kuju.jpg';
+    $imagePath = 'img/kuju.jpg';
     imagejpeg($canvas, $imagePath);
     imagedestroy($canvas);
 
