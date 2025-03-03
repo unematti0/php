@@ -174,8 +174,13 @@ if (isset($_GET["kontroll"])) {
 }
 
 echo "<h1>Pildid<br></h1>";
+
 $pildid = array("img/prentice.jpg","img/freeland.jpg","img/peterus.jpg","img/devlin.jpg","img/gabriel.jpg","img/pete.jpg");
 
+echo "<h2>kolmas pilt:<br></h2>";
+echo '<img src="' . $pildid[2] . '" alt="Pilt" style="width:200px;height:200px;margin:10px;" class="rounded-circle"><br>';
+
+echo "<h2>kõik pildid:<br></h2>";
 foreach ($pildid as $pilt) {
     echo '<img src="' . $pilt . '" alt="Pilt" style="width:200px;height:200px;margin:10px;" class="rounded-circle">';
 }
