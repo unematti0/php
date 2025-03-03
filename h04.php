@@ -79,15 +79,88 @@ if (isset($_GET["kulg1"]) && isset($_GET["kulg2"]) && isset($_GET["kulg3"]) && i
     $k2 = $_GET["kulg2"];
     $k3 = $_GET["kulg3"];
     $k4 = $_GET["kulg4"];
-    if (empty($k1) && empty($k2) && empty($k3) && empty($k4)) {
+    if (empty($k1) || empty($k2) || empty($k3) || empty($k4)) {
         echo "Palun sisestage kõik küljed<br>";
+    } elseif ($k1 <= 0 || $k2 <= 0 || $k3 <= 0 || $k4 <= 0) {
+        echo "Kõik küljed peavad olema positiivsed arvud<br>";
     } elseif ($k1 == $k2 && $k2 == $k3 && $k3 == $k4) {
         echo "ruut<br>";
-    } else {
+        $kuju = "ruut";
+    } elseif ($k1 == $k3 && $k2 == $k4) {
         echo "ristkülik<br>";
+        $kuju = "ristkülik";
+    } else {
+        echo "ei ole ristkülik ega ruut<br>";
+        $kuju = "ei ole ristkülik ega ruut";
     }
 
+    // Create the image
+    $canvas = imagecreatetruecolor(200, 200);
+    $white = imagecolorallocate($canvas, 255, 255, 255);
+    $black = imagecolorallocate($canvas, 0, 0, 0);
+    imagefill($canvas, 0, 0, $white);
+
+    if ($kuju == "ruut") {
+        imagerectangle($canvas, 50, 50, 150, 150, $black);
+    } elseif ($kuju == "ristkülik") {
+        imagerectangle($canvas, 50, 75, 150, 125, $black);
+    }
+
+    // Save the image to a file
+    $imagePath = 'kuju.jpg';
+    imagejpeg($canvas, $imagePath);
+    imagedestroy($canvas);
+
+    // Display the image
+    echo '<img src="' . $imagePath . '" alt="' . $kuju . '">';
 }
+?>
+
+<h2>juubel ?</h2>
+<form method="get">
+    sinu sünni aasta: <input type="number" name="synniaasta"><br>
+    <input type="submit" value="arvuta" class="btn btn-primary"><br>
+</form>
+
+<?php
+if (isset($_GET["synniaasta"])) {
+    $Saasta = (int)$_GET["synniaasta"];
+    $vanus = 2025 - $Saasta;
+    if (empty($Saasta)) {
+        echo "Palun sisestage sünni aasta<br>";
+    } elseif ($vanus % 10 == 0 || $vanus % 10 == 5) {
+        echo "juubel<br>";
+    } else {
+        echo "ei ole juubel<br>";
+    }
+}
+?>
+
+<h2>Hinne</h2>
+<form method="get">
+    sisesta punktide summa: <input type="number" name="punktid"><br>
+    <input type="submit" value="arvuta" class="btn btn-primary"><br>
+</form>
+
+<?php
+if (isset($_GET["punktid"])) {
+    $punktid = (int)$_GET["punktid"];
+
+    if (empty($punktid)) {
+        echo "SISESTA OMA PUNKTID!<br>";
+
+
+    }elseif ($punktid >10 || $punktid == 10) {
+        echo "SUPER!!<br>";
+    } elseif ($punktid == 5 || $punktid < 5) {
+        echo "KASIN!<br>";
+    }elseif ($punktid >5 || $punktid < 9) {
+        echo "TEHTUD!<br>";
+    
+ 
+}
+}
+?>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
   </body>
