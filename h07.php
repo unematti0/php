@@ -41,14 +41,15 @@ if (isset($_GET['kasutajanimi'])) {
     $kasutaja = $_GET['kasutajanimi'];
     function gmail($kasutaja){
         return strtolower($kasutaja) . '@gmail.com';
-    }
-
-    echo "<h2>Teie email:</h2>";
+        echo "<h2>Teie email:</h2>";
     echo gmail($kasutaja);
 
     echo "<h2>Teie kood:</h2>";
     echo substr(uniqid(), -7);
 
+    }
+
+ echo gmail($kasutaja);
 }
 
 echo "<h2>arvud:</h2>";
@@ -65,7 +66,7 @@ if (isset($_GET['arv1']) && isset($_GET['arv2']) && isset($_GET['samm']) && !emp
     $samm = $_GET['samm'];
 
     function arvud($arv1, $arv2, $samm){
-        echo "<h2>genereeri</h2>";
+        echo "Arvud:<br>";
         for($i = $arv1; $i <= $arv2; $i++){
             if ($i % $samm == 0) {
                 echo $i . ", ";
@@ -91,10 +92,11 @@ if (isset($_GET['kulg1']) && isset($_GET['kulg2']) && !empty($_GET['kulg1']) && 
 
     function pindala($kulg1, $kulg2){
         return $kulg1 * $kulg2;
+        echo "<h2>Pindala on:</h2>";
+        echo pindala($kulg1, $kulg2);
     }
 
-    echo "<h2>Pindala on:</h2>";
-    echo pindala($kulg1, $kulg2);
+   echo pindala($kulg1, $kulg2);
 }
 
 
@@ -109,21 +111,40 @@ if (isset($_GET['isikukood']) && !empty($_GET['isikukood'])) {
     $isikukood = $_GET['isikukood'];
 
     function isikukood($isikukood){
+        $result = "";
         if (strlen($isikukood) == 11) {
-            return "Isikukood on õige pikkusega";
+            $result .= "Isikukood on õige pikkusega<br>";
         } else {
-            return "Isikukood on vale pikkusega";
+            $result .= "Isikukood on vale pikkusega<br>";
         }
+
+        $result .= "sugu: ";
+        $result .= substr($isikukood, 0, 1) % 2 == 0 ? "Naine<br>" : "Mees<br>";
+        $result .= "sünniaeg: ";
+        $result .= substr($isikukood, 5, 2) . "." . substr($isikukood, 3, 2) . "." . substr($isikukood, 1, 2);
+
+        return $result;
     }
 
     echo isikukood($isikukood);
-    echo "sugu:<br>";
-    echo substr($isikukood, 0, 1) % 2 == 0 ? "Naine<br>" : "Mees<br>";
-    echo "sünniaeg: <br>";
-    echo substr($isikukood, 1, 2) . "." . substr($isikukood, 3, 2) . "." . substr($isikukood, 5, 2);
 }
 
 
+echo "<h2>Head mõtted:</h2>";
+
+function motted(){
+    $alus = array("Tarkus", "Õnn", "Armastus", "Rõõm", "Jõud", "Tervis", "Raha", "Edu", "Sõprus", "Pere");
+    $oeldis = array("on", "toob", "teeb", "aitab", "võimaldab", "tagab", "kingib", "tõstab", "aitab", "loob");
+    $sihitis = array("targaks", "õnnelikuks", "armastavaks", "rõõmsaks", "jõuliseks", "terveks", "jõukaks", "edukaks", "sõbralikuks", "perekeskseks");
+
+    $rand1 = rand(0, count($alus)-1);
+    $rand2 = rand(0, count($oeldis)-1);
+    $rand3 = rand(0, count($sihitis)-1);
+
+    echo $alus[$rand1] . " " . $oeldis[$rand2] . " " . $sihitis[$rand3];
+}
+
+motted();
 ?>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
