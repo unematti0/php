@@ -20,6 +20,7 @@
 if (isset($_GET['algus']) && isset($_GET['lopp'])) {
     $algus_aeg = $_GET['algus'];
     $lopp_aeg = $_GET['lopp'];
+    
     if (empty($algus_aeg) || empty($lopp_aeg)) {
         echo "Palun Täitke mõlemad lahtrid";
     } else {

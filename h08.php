@@ -32,9 +32,9 @@ if (isset($_GET["aasta"])) {
 
 $tana = strtotime(date('Y-m-d'));
 $Kool_lopp = strtotime("2025-06-10");
-$paeva = ($Kool_lopp - $tana) / (60 * 60 * 24);
+$paevad = ($Kool_lopp - $tana) / (60 * 60 * 24);
 
-echo "Kooli aasta lõpuni on jäänud " . floor($paeva) . " päeva!";
+echo "Kooli aasta lõpuni on jäänud " . floor($paevad) . " päeva!";
 
 echo "<h2>aastaaeg</h2>";
 $kuu = date('n');
