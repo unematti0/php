@@ -8,7 +8,6 @@
     flex-direction: column;
     justify-content: center;
   }
-  .jumbotron > * { position: relative; z-index: 2; }
   .navbar {
     background: transparent;
     position: absolute;
