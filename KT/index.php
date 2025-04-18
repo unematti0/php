@@ -91,6 +91,7 @@ if ($leht == 'index') {
     include($leht . ".php");
 }
 ?>
+
 </div>
 
 <footer class="text-center mt-4">
