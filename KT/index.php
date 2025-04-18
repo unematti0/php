@@ -21,7 +21,7 @@ $taustad = array("img/banner1.jpg", "img/banner2.jpg", "img/banner3.jpg");
 $taust = $taustad[array_rand($taustad)];
 ?>
 
-<!-- jubotron -->
+<!-- jubo -->
 <?php if ($leht !== 'admin'): ?>
 <div class="jumbotron" style="background-image: url('<?php echo $taust; ?>');">
   <nav class="navbar navbar-expand-lg navbar-dark">
@@ -57,6 +57,7 @@ $taust = $taustad[array_rand($taustad)];
 <?php
 // postituste kuvamine
 if ($leht == 'index') {
+
   if (is_dir("posts")) {
       $fail = glob("posts/*.txt");
 
@@ -64,9 +65,11 @@ if ($leht == 'index') {
       foreach ($fail as $file) {
         $pealkiri = basename($file, ".txt");
           $sisu = file_get_contents($file);
+          
           echo "<div class='post'>";
           echo "<h2>" . htmlspecialchars($pealkiri) . "</h2>";
           echo "<p>" . nl2br(htmlspecialchars($sisu)) . "</p>";
+        
         // kas pilt on olemas
         foreach (array('jpg', 'jpeg', 'png', 'gif') as $laiend) {
             $pildifail = "posts/{$pealkiri}.$laiend";

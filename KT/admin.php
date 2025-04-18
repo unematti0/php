@@ -38,7 +38,8 @@ $faili_laiendid = array('jpg', 'jpeg', 'png', 'gif');
 
 // postituse lisamine
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["add"])) {
-    $pealkiri = trim($_POST["title"]);
+    
+  $pealkiri = trim($_POST["title"]);
     $sisu = trim($_POST["content"]);
 
   // faili nimi läbi pealkirja
@@ -48,8 +49,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["add"])) {
   
   // kui latakse pilt on see samaa
   if (isset($_FILES["image"]) && $_FILES["image"]["error"] === UPLOAD_ERR_OK) {
-      $laiend = pathinfo($_FILES["image"]["name"], PATHINFO_EXTENSION);
-        move_uploaded_file($_FILES["image"]["tmp_name"], "posts/{$nimi_failile}.$laiend");
+      
+    $laiend = pathinfo($_FILES["image"]["name"], PATHINFO_EXTENSION);
+    move_uploaded_file($_FILES["image"]["tmp_name"], "posts/{$nimi_failile}.$laiend");
   }
   echo "<div class='alert alert-success'>Uus postitus lisatud!</div>";
 }
@@ -58,7 +60,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["add"])) {
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["delete"])) {
     $kustuta = $_POST["delete"];
     $teksti_fail = "posts/{$kustuta}.txt";
-      if (file_exists($teksti_fail)) {
+      
+    if (file_exists($teksti_fail)) {
         unlink($teksti_fail);
   }
   // pildi ksutus
@@ -77,6 +80,7 @@ $posts = glob("posts/*.txt");
 if (!empty($posts)) {
 echo "<h2>Olemasolevad postitused</h2>";
 echo "<ul class='list-group'>";
+
     foreach ($posts as $post) {
       $pealkiri = basename($post, ".txt");
       echo "<li class='list-group-item d-flex justify-content-between align-items-center'>";
