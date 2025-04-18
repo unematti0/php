@@ -53,7 +53,11 @@
             <li class="list-group-item">
                 <a class="text-decoration-none" href="KT/index.php">KT</a>
             </li>
+            <li class="list-group-item">
+                <a class="text-decoration-none" href="KT2/index.php">KT2</a>
+            </li>
         </ul>
+
 </div>
 
 
