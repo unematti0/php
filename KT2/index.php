@@ -9,16 +9,16 @@
 <body>
 
 <?php
-// Kontrollime, milline leht laaditakse
+// lehe kontroll
 if (!empty($_GET['leht'])) {
     $leht = htmlspecialchars($_GET['leht']);
     $lubatud = array('Avaleht', 'minust', 'kontakt', 'admin');
     $kontroll = in_array($leht, $lubatud);
     if (!$kontroll) {
-        $leht = 'Avaleht'; // Kui leht pole lubatud, laeme vaikimisi "Avaleht"
+        $leht = 'Avaleht';
     }
 } else {
-    $leht = 'Avaleht'; // Kui "leht" parameetrit pole, laeme vaikimisi "Avaleht"
+    $leht = 'Avaleht'; 
 }
 
 // Suvlaine pilt
@@ -26,7 +26,7 @@ $taustad = array("img/banner1.jpg", "img/banner2.jpg", "img/banner3.jpg");
 $taust = $taustad[array_rand($taustad)];
 ?>
 
-<!-- Läbipaistev navbar valge tekstiga -->
+<!-- navbar -->
 <nav class="navbar navbar-expand-lg navbar-dark position-absolute top-0 start-0 end-0 bg-transparent">
   <div class="container">
     <a class="navbar-brand text-white" href="index.php?leht=Avaleht">Mattias Elmers</a>
@@ -44,7 +44,7 @@ $taust = $taustad[array_rand($taustad)];
   </div>
 </nav>
 
-<!-- Jumbotron -->
+<!-- jumbo -->
 <div class="d-flex align-items-center justify-content-center text-white text-center" style="height: 400px; background-image: url('<?php echo $taust; ?>'); background-size: cover; background-position: center;">
   <div>
     <h1 class="display-4 fw-bold">Praktika Hispaanias</h1>
@@ -52,7 +52,7 @@ $taust = $taustad[array_rand($taustad)];
   </div>
 </div>
 
-<!-- Lehe sisu -->
+<!-- sisu -->
 <div class="container my-5">
   <?php
   if (file_exists($leht . '.php')) {
@@ -63,12 +63,12 @@ $taust = $taustad[array_rand($taustad)];
   ?>
 </div>
 
-<!-- Jalus koos eraldusjoonega -->
+
 <footer class="text-center pt-4 mt-5 border-top">
   <p class="mb-4">Mattias Elmers</p>
 </footer>
 
-<!-- Bootstrap JS -->
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
 </body>
 </html>
