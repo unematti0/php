@@ -1,102 +1,82 @@
-<!DOCTYPE html>
-<html lang="et">
-<head>
-  <meta charset="UTF-8">
-  <title>Admin – Postitused</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body class="container py-5">
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>admin</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  </head>
+  <body>
+    <h1>admin leht!!!</h1>
+    <h2>Lisa postitus:</h2>
+    <form method="POST">
 
-<a href="index.php" class="btn btn-secondary mb-4"><--- Avalehele tagasi</a>
+        <div class="mb-3">
+            <p>pealkiri:</p>
+            <input type="text" class="form-control" id="pealkiri" name="pealkiri" required>
+        </div>
 
-<h2>Lisa uus postitus</h2>
-<form method="post" enctype="multipart/form-data" class="mb-5">
-    <div class="mb-3">
-        <label class="form-label">Pealkiri:</label>
-        <input type="text" name="title" class="form-control" required>
-    </div>
+        <div class="mb-3">
+            <p>sisu:</p>
+            <textarea name="sisu" class="form-control" rows="5" required></textarea>
+            
+        </div>
+        <button type="submit" name="lisa" class="btn btn-primary">Lisa postitus</button>
 
-    <div class="mb-3">
-        <label class="form-label">Sisu:</label>
-        <textarea name="content" rows="5" class="form-control" required></textarea>
-    </div>
-
-<div class="mb-3">
-        <label class="form-label">Pilt (valikuline):</label>
-        <input type="file" name="image" accept="image/*" class="form-control">
-  </div>
-
-  <button type="submit" name="add" class="btn btn-primary">Lisa postitus</button>
-</form>
+    </form>
 
 <?php
-// kausta kontroll
-if (!is_dir("posts")) {
-    mkdir("posts");
-}
-$faili_laiendid = array('jpg', 'jpeg', 'png', 'gif');
 
-// postituse lisamine
-if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["add"])) {
-    
-  $pealkiri = trim($_POST["title"]);
-    $sisu = trim($_POST["content"]);
+ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['lisa'])) {
+    $pealkiri = $_POST['pealkiri'];
+    $sisu = $_POST['sisu'];
 
-  // faili nimi läbi pealkirja
-  $nimi_failile = preg_replace('/[^a-zA-Z0-9-_]/', '_', strtolower($pealkiri));
-  
-  file_put_contents("posts/{$nimi_failile}.txt", $sisu);
-  
-  // kui latakse pilt on see samaa
-  if (isset($_FILES["image"]) && $_FILES["image"]["error"] === UPLOAD_ERR_OK) {
-      
-    $laiend = pathinfo($_FILES["image"]["name"], PATHINFO_EXTENSION);
-    move_uploaded_file($_FILES["image"]["tmp_name"], "posts/{$nimi_failile}.$laiend");
-  }
-  echo "<div class='alert alert-success'>Uus postitus lisatud!</div>";
+    $minu_fail = fopen("postitused/$pealkiri.txt", 'w');
+    fwrite($minu_fail, $sisu);
+    fclose($minu_fail);
+    echo "<p class='text-success'>Postitus on lisatud!!!</p>";
 }
 
-// kustutamise algus
-if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["delete"])) {
-    $kustuta = $_POST["delete"];
-    $teksti_fail = "posts/{$kustuta}.txt";
-      
-    if (file_exists($teksti_fail)) {
-        unlink($teksti_fail);
-  }
-  // pildi ksutus
-  foreach ($faili_laiendid as $laiend) {
-      $pilt = "posts/{$kustuta}.$laiend";
-        if (file_exists($pilt)) {
-          unlink($pilt);
-    }
-  }
-  echo "<div class='alert alert-danger'>Postitus kustutatud!</div>";
-}
-// kustutuse lõpp
-
-// olemasolevad postitused nuppuga
-$posts = glob("posts/*.txt");
-if (!empty($posts)) {
-echo "<h2>Olemasolevad postitused</h2>";
-echo "<ul class='list-group'>";
-
-    foreach ($posts as $post) {
-      $pealkiri = basename($post, ".txt");
-      echo "<li class='list-group-item d-flex justify-content-between align-items-center'>";
-      echo htmlspecialchars($pealkiri);
-      echo "<form method='post' style='margin: 0;'>";
-      echo "<input type='hidden' name='delete' value='" . htmlspecialchars($pealkiri) . "'>";
-      echo "<button type='submit' class='btn btn-danger btn-sm'>Kustuta</button>";
-      echo "</form>";
-      echo "</li>";
-  }
-echo "</ul>";
-} else {
-      echo "<p>Postitusi pole veel lisatud.</p>";
-}
 ?>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-</body>
+<h2>Kustusta postitus:</h2>
+
+
+
+    <form method="POST">
+        <div class="mb-3">
+            <p>pealkiri:</p>
+            <input type="text" class="form-control" id="pealkiri" name="pealkiri" required>
+        </div>
+
+        <button type="submit" name="kustuta" class="btn btn-danger">Kustuta postitus</button>
+    </form>
+<h3>olemas olevad postitused:</h3>
+<?php
+$postitused = glob('postitused/*.txt');
+
+foreach ($postitused as $postitus) {
+
+  $faili_info = pathinfo($postitus);
+  $pealkiri = $faili_info['filename'];
+
+  echo "$pealkiri<br>";
+}
+
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['kustuta'])) {
+    $pealkiri = $_POST['pealkiri'];
+    $failinimi = "postitused/$pealkiri.txt";
+
+    if (file_exists($failinimi)) {
+        unlink($failinimi);
+        echo "<p class='text-success'>Postitus on kustutatud!!!</p>";
+    } else {
+        echo "<p class='text-danger'>Postitust ei leitud!!!</p>";
+    }
+}
+?>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+  </body>
 </html>
+

@@ -2,102 +2,75 @@
 <html lang="et">
 <head>
   <meta charset="UTF-8">
-  <title>Minu Bootstrapi Leht</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="style01.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mattias Elmers</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
 </head>
 <body>
 
 <?php
-// lubatud lehed ja leht parameeter
-$lubatud_lehed = array('index', 'minust', 'kontakt', 'admin');
-$leht = isset($_GET['leht']) ? htmlspecialchars($_GET['leht']) : 'index';
-  if (!in_array($leht, $lubatud_lehed)) {
-    $leht = 'index';
+// lehe kontroll
+if (!empty($_GET['leht'])) {
+    $leht = htmlspecialchars($_GET['leht']);
+    $lubatud = array('Avaleht', 'minust', 'kontakt', 'admin');
+    $kontroll = in_array($leht, $lubatud);
+    if (!$kontroll) {
+        $leht = 'Avaleht';
+    }
+} else {
+    $leht = 'Avaleht'; 
 }
 
-// suvlaine pilt
+// Suvlaine pilt
 $taustad = array("img/banner1.jpg", "img/banner2.jpg", "img/banner3.jpg");
 $taust = $taustad[array_rand($taustad)];
 ?>
 
-<!-- jubo -->
-<?php if ($leht !== 'admin'): ?>
-<div class="jumbotron" style="background-image: url('<?php echo $taust; ?>');">
-  <nav class="navbar navbar-expand-lg navbar-dark">
-    
-  <div class="container-fluid">
-      <a class="navbar-brand" href="index.php">Mattias Elmers</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-          <span class="navbar-toggler-icon"></span>
-      </button>
+<!-- navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark position-absolute top-0 start-0 end-0 bg-transparent">
+  <div class="container">
 
-      <div class="collapse navbar-collapse" id="navbarNav">
+    <a class="navbar-brand text-white" href="index.php?leht=Avaleht">Mattias Elmers</a>
+
+    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navmenu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+      <div class="collapse navbar-collapse" id="navmenu">
         <ul class="navbar-nav ms-auto">
-            <li class="nav-item"><a class="nav-link text-white" href="index.php?leht=index">Avaleht</a></li>
+            <li class="nav-item"><a class="nav-link text-white" href="index.php?leht=Avaleht">Avaleht</a></li>
             <li class="nav-item"><a class="nav-link text-white" href="index.php?leht=minust">Minust</a></li>
             <li class="nav-item"><a class="nav-link text-white" href="index.php?leht=kontakt">Kontakt</a></li>
             <li class="nav-item"><a class="nav-link text-white" href="index.php?leht=admin">Admin</a></li>
-        </ul>
+      </ul>
       </div>
+  </div>
+</nav>
 
-    </div>
-  </nav>
-
-    <div class="container text-center">
-      <h1 class="display-4">Praktika Hispaanias</h1>
-      <p class="lead">Minu väispraktika HKHKs</p>
-    </div>
-
+<!-- jumbo -->
+<div class="d-flex align-items-center justify-content-center text-white text-center" style="height: 400px; background-image: url('<?php echo $taust; ?>'); background-size: cover; background-position: center;">
+  <div>
+    <h1 class="display-4 fw-bold">Praktika Hispaanias</h1>
+    <p class="lead">Minu välispraktika HKHKs</p>
+  </div>
 </div>
-<?php endif; ?>
 
-
-<div class="container mt-4">
-<?php
-// postituste kuvamine
-if ($leht == 'index') {
-
-  if (is_dir("posts")) {
-      $fail = glob("posts/*.txt");
-
-    if (!empty($fail)) {
-      foreach ($fail as $file) {
-        $pealkiri = basename($file, ".txt");
-          $sisu = file_get_contents($file);
-          
-          echo "<div class='post'>";
-          echo "<h2>" . htmlspecialchars($pealkiri) . "</h2>";
-          echo "<p>" . nl2br(htmlspecialchars($sisu)) . "</p>";
-        
-        // kas pilt on olemas
-        foreach (array('jpg', 'jpeg', 'png', 'gif') as $laiend) {
-            $pildifail = "posts/{$pealkiri}.$laiend";
-
-          if (file_exists($pildifail)) {
-              echo "<img src='$pildifail' alt='" . htmlspecialchars($pealkiri) . "' style='max-width:100%; height:auto;'>";
-                break;
-          }
-        }
-          echo "</div><hr>";
-      }
-    } else {
-        echo "<p>Postitusi pole veel lisatud.</p>";
-    }
+<!-- sisu -->
+<div class="container my-5">
+  <?php
+  if (file_exists($leht . '.php')) {
+      include($leht . '.php');
   } else {
-      echo "<p>Postitusi pole veel lisatud.</p>";
+      echo '<h2 class="text-center">Leht pole saadaval</h2>';
   }
-} else {
-    include($leht . ".php");
-}
-?>
-
+  ?>
 </div>
 
-<footer class="text-center mt-4">
- Mattias Elmers
+
+<footer class="text-center pt-4 mt-5 border-top">
+  <p class="mb-4">Mattias Elmers</p>
 </footer>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
 </body>
 </html>
