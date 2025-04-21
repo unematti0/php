@@ -21,8 +21,8 @@ foreach ($postitused as $postitus) {
     $pealkiri = $faili_info['filename'];
 
     echo "<div class='border-bottom py-3'>";
-    echo "<h5 class='fw-bold'>". htmlspecialchars($pealkiri) ."</h5>";
-    echo "<p class='text-muted'>". nl2br(htmlspecialchars($faili_sisu)) ."</p>";
+    echo "<h5 class='fw-bold'>". $pealkiri ."</h5>";
+    echo "<p class='text-muted'>". nl2br($faili_sisu) ."</p>";
     echo "</div>";
 }
 ?>

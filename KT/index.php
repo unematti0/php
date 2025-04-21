@@ -11,7 +11,7 @@
 <?php
 // lehe kontroll
 if (!empty($_GET['leht'])) {
-    $leht = htmlspecialchars($_GET['leht']);
+    $leht = $_GET['leht'];
     $lubatud = array('Avaleht', 'minust', 'kontakt', 'admin');
     $kontroll = in_array($leht, $lubatud);
     if (!$kontroll) {
